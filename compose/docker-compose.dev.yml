@@ -1,0 +1,55 @@
+
+services:
+
+  ignition:
+    image: inductiveautomation/ignition:${IGNITION_VERSION}
+    container_name: ignition-dev
+    ports:
+      - "${GATEWAY_HTTP_PORT}:8088"
+      - "${GATEWAY_HTTPS_PORT}:8043"
+    environment:
+      GATEWAY_ADMIN_USERNAME: ${GATEWAY_ADMIN_USERNAME}
+      GATEWAY_ADMIN_PASSWORD: ${GATEWAY_ADMIN_PASSWORD}
+      IGNITION_EDITION: ${IGNITION_EDITION}
+    volumes:
+      # Curated config mounts — only what we version control
+      - ../ignition/data/projects:/usr/local/bin/ignition/data/projects
+      - ../ignition/data/modules:/usr/local/bin/ignition/data/modules
+      - ../ignition/conf:/usr/local/bin/ignition/data/conf
+      # Runtime DB stays in a named volume — NOT in git
+      - ignition_dev_data:/usr/local/bin/ignition/data/db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - ignition-dev-net
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-dev
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      # Init script (version controlled)
+      - ../postgres/init:/docker-entrypoint-initdb.d
+      # Runtime data stays in named volume
+      - postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - ignition-dev-net
+
+volumes:
+  ignition_dev_data:
+  postgres_dev_data:
+
+networks:
+  ignition-dev-net:
+    driver: bridge

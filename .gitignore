@@ -1,0 +1,17 @@
+# Never commit prod secrets
+.env.prod
+
+# Runtime data (managed by Docker volumes)
+ignition/data/db/
+postgres/data/
+logs/
+
+# Backups and licenses
+backups/
+*.backup
+*.sql.gz
+*.lic
+
+# OS noise
+.DS_Store
+Thumbs.db
