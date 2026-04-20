@@ -15,3 +15,4 @@ backups/
 # OS noise
 .DS_Store
 Thumbs.db
+ignition/data/projects/.resources/
