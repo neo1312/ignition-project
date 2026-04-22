@@ -16,3 +16,4 @@ backups/
 .DS_Store
 Thumbs.db
 ignition/data/projects/.resources/
+ignition/data/projects/samplequickstart/
