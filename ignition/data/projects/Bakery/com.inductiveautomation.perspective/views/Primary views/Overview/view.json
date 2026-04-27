@@ -1,0 +1,55 @@
+{
+  "custom": {},
+  "params": {},
+  "props": {},
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "EmbeddedView"
+        },
+        "position": {
+          "basis": "320px"
+        },
+        "props": {
+          "path": "Overview/Mixer",
+          "useDefaultViewHeight": true
+        },
+        "type": "ia.display.view"
+      },
+      {
+        "meta": {
+          "name": "Mixer"
+        },
+        "position": {
+          "basis": "320px"
+        },
+        "props": {
+          "path": "Overview/Mixer",
+          "useDefaultViewHeight": true
+        },
+        "type": "ia.display.view"
+      },
+      {
+        "meta": {
+          "name": "Mixer_0"
+        },
+        "position": {
+          "basis": "320px"
+        },
+        "props": {
+          "path": "Overview/Mixer",
+          "useDefaultViewHeight": true
+        },
+        "type": "ia.display.view"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "alignItems": "center"
+    },
+    "type": "ia.container.flex"
+  }
+}
